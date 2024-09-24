@@ -6,10 +6,12 @@ import ContactList from "../ContactList/ContactList";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchContact } from "../../redux/contactsOps";
+import { selectIsLoading, selectError } from "../../redux/contactsSlice";
 
 export default function App() {
-  const loading = useSelector((state) => state.contacts.loading);
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(fetchContact());
@@ -19,7 +21,7 @@ export default function App() {
     <>
       <h1>Phonebook</h1>
       <ContactForm />
-      {loading && <p>Loading...</p>}
+      {isLoading && !error && <p>Loading...</p>}
       <SearchBox />
       <ContactList />
     </>
